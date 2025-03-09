@@ -20,9 +20,14 @@ type Record struct {
 func CreateDataBase(){
 	id := 0
 	booksBase := make(db)
-	reader := createCSVReader()
 
-	_, err := reader.Read()
+	file, err := os.Open("/home/andrey/Library/internal/database/books.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+	reader := createCSVReader(file)
+
+	_, err = reader.Read()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,14 +46,10 @@ func CreateDataBase(){
 		booksBase[id] = createRecord(record)
 		id++
 	}
+	defer file.Close()
 }
 
-func createCSVReader() *csv.Reader {
-	file, err := os.Open("books.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+func createCSVReader(file *os.File) *csv.Reader {
 	reader := csv.NewReader(file)
 	return reader
 }
