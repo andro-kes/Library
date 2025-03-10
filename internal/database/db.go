@@ -10,8 +10,6 @@ import (
 	"os"
 )
 
-
-
 var BooksBase models.DB
 
 func CreateDataBase() {

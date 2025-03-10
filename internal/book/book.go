@@ -8,6 +8,6 @@ type Book struct {
 	Publisher string
 }
 
-func (book *Book) getTitle() string {
+func (book *Book) GetTitle() string {
 	return book.Title
 }
