@@ -1,27 +1,24 @@
 package database
 
 import (
+	"Library/internal/path"
+	"Library/internal/book"
+	"Library/internal/models"
 	"encoding/csv"
 	"io"
-	"os"
 	"log"
+	"os"
 )
 
-type db = map[int]Record
 
-type Record struct {
-	Title string
-	Author string
-	Genre string
-	Height string
-	Publisher string
-}
 
-func CreateDataBase(){
+var BooksBase models.DB
+
+func CreateDataBase() {
 	id := 0
-	booksBase := make(db)
+	booksBase := make(models.DB)
 
-	file, err := os.Open("/home/andrey/Library/internal/database/books.csv")
+	file, err := os.Open(path.ABSOLUTE_PATH_TO_CSV)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -47,6 +44,7 @@ func CreateDataBase(){
 		id++
 	}
 	defer file.Close()
+	BooksBase = booksBase
 }
 
 func createCSVReader(file *os.File) *csv.Reader {
@@ -54,8 +52,8 @@ func createCSVReader(file *os.File) *csv.Reader {
 	return reader
 }
 
-func createRecord(record []string) Record {
-	return Record{
+func createRecord(record []string) book.Book {
+	return book.Book{
 		Title: record[0],
 		Author: record[1],
 		Genre: record[2],
